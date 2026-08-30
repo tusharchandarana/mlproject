@@ -7,8 +7,8 @@ from sklearn.model_selection import train_test_split
 
 from dataclasses import dataclass
 
-@dataclass  ## decoorater
-class DataIngestionConfig:
+@dataclass  ## decoorater used to avoid calling init and all to do simple implementation of class
+class DataIngestionConfig: 
     train_data_path: str=os.path.join('artifacts',"train.csv")  ## defining my own class variable
     test_data_path: str=os.path.join('artifacts',"test.csv")
     raw_data_path: str=os.path.join('artifacts',"data.csv")
@@ -16,7 +16,7 @@ class DataIngestionConfig:
 
 class DataIngestion:
     def __init__(self):
-        self.ingestion_config = DataIngestionConfig()
+        self.ingestion_config = DataIngestionConfig() # instance created
         
     def initiate_data_ingestion(self):
         logging.info("entered the data ingestion method or component")
@@ -24,15 +24,15 @@ class DataIngestion:
             df = pd.read_csv('notebook\data\stud.csv')
             logging.info('Read the dataset as dataframe')
             
-            os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
+            os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)  # creating artifacts namedd folder 
             
-            df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
+            df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True) # pushing data.csv to artifacts 
             logging.info("train test split initiated.")
             
             train_set,test_set = train_test_split(df,test_size=0.2,random_state=42)
             
-            train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
-            test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
+            train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True) #pushing tarin.csv to artifacts
+            test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True) # pushing test.csv to articats 
             
             logging.info('ingestion of the data completed')
             
@@ -45,5 +45,5 @@ class DataIngestion:
             raise CustomException(e,sys)
 
 if __name__ =="__main__":
-    obj = DataIngestion()
-    obj.initiate_data_ingestion()        
+    obj = DataIngestion()    # calling class 
+    obj.initiate_data_ingestion()        # calling method of the class
